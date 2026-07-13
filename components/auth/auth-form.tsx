@@ -122,8 +122,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" }) {
                   : "Inloggen"}
           </Button>
         </form>
-        {message ? <p className="mt-4 rounded-lg bg-green-50 p-3 text-sm text-green-800">{message}</p> : null}
-        {error ? <p className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800">{error}</p> : null}
+        {message ? <p className="mt-4 rounded-lg bg-neutral-50 p-3 text-sm text-neutral-700">{message}</p> : null}
+        {error ? <p className="mt-4 rounded-lg bg-neutral-50 p-3 text-sm text-neutral-700">{error}</p> : null}
         <div className="mt-6 flex justify-between text-sm text-neutral-600">
           {mode !== "login" ? <Link href="/inloggen">Inloggen</Link> : <Link href="/registreren">Registreren</Link>}
           {mode !== "forgot" ? <Link href="/wachtwoord-vergeten">Wachtwoord vergeten</Link> : null}

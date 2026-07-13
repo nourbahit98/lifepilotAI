@@ -116,7 +116,7 @@ export function AssistantWorkspace() {
   return (
     <div className="space-y-6">
       <section>
-        <p className="text-sm font-medium text-green-700">AI-assistent</p>
+        <p className="text-sm font-medium text-neutral-700">AI-assistent</p>
         <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Vraag LifePilot om iets te regelen.</h1>
       </section>
       <Card>
@@ -164,7 +164,7 @@ export function AssistantWorkspace() {
             <p aria-live="polite" className="mt-1 text-sm text-neutral-600">{status}</p>
           </div>
           {router ? (
-            <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-800">
+            <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-700">
               {router.intent} · {router.output_type}
             </span>
           ) : null}
@@ -209,7 +209,7 @@ export function AssistantWorkspace() {
 
 function Block({ lines, title, warning }: { lines: string[]; title: string; warning?: boolean }) {
   return (
-    <section className={warning ? "rounded-lg bg-orange-50 p-4" : "rounded-lg bg-neutral-50 p-4"}>
+    <section className={warning ? "rounded-lg bg-neutral-50 p-4" : "rounded-lg bg-neutral-50 p-4"}>
       <h3 className="text-sm font-semibold text-neutral-950">{title}</h3>
       <ul className="mt-2 space-y-1">
         {lines.map((line) => (

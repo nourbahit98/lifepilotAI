@@ -38,7 +38,7 @@ export function PrivacyDashboard() {
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-green-700">Privacy en gegevens</p>
+        <p className="text-sm font-medium text-neutral-700">Privacy en gegevens</p>
         <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Jij bepaalt wat LifePilot onthoudt.</h1>
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
@@ -63,10 +63,10 @@ export function PrivacyDashboard() {
           </CardContent>
         </Card>
       </div>
-      <Card className="border-red-200">
+      <Card className="border-neutral-200">
         <CardContent>
-          <h2 className="text-base font-semibold text-red-950">Account verwijderen</h2>
-          <p className="mt-3 text-sm leading-6 text-red-800">
+          <h2 className="text-base font-semibold text-neutral-950">Account verwijderen</h2>
+          <p className="mt-3 text-sm leading-6 text-neutral-700">
             Typ VERWIJDER MIJN ACCOUNT om je account en gekoppelde data te verwijderen.
           </p>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">

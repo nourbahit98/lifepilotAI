@@ -26,7 +26,7 @@ export function AppShell({
   profile?: { full_name?: string | null; email?: string | null; subscription_plan?: string | null } | null;
 }) {
   return (
-    <main className="min-h-screen bg-neutral-50 text-neutral-950">
+    <main className="min-h-screen bg-[#f7f7f5] text-neutral-950">
       <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/90 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
           <Link className="flex items-center gap-3" href="/dashboard">

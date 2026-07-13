@@ -31,7 +31,7 @@ export function SubscriptionManager() {
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-green-700">Abonnement</p>
+        <p className="text-sm font-medium text-neutral-700">Abonnement</p>
         <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Beheer je abonnement.</h1>
       </div>
       <div className="flex gap-2">
@@ -43,7 +43,7 @@ export function SubscriptionManager() {
         </Button>
         <Button onClick={portal} type="button" variant="secondary">Facturen en opzeggen</Button>
       </div>
-      {status ? <p className="rounded-lg bg-orange-50 p-3 text-sm text-orange-900">{status}</p> : null}
+      {status ? <p className="rounded-lg bg-neutral-50 p-3 text-sm text-neutral-700">{status}</p> : null}
       <div className="grid gap-5 lg:grid-cols-3">
         {pricingPlans.map((plan) => (
           <Card key={plan.id}>

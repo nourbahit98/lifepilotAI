@@ -14,7 +14,7 @@ export function DashboardOverview({
   return (
     <>
       <section>
-        <p className="text-sm font-medium text-green-700">Dashboard</p>
+        <p className="text-sm font-medium text-neutral-700">Dashboard</p>
         <h1 className="mt-2 text-4xl font-semibold text-neutral-950">
           Goedemorgen, {profile?.full_name || "Nour"}. Wat wil je vandaag regelen?
         </h1>

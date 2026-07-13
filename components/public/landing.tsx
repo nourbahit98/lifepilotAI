@@ -42,7 +42,7 @@ export function LandingPage() {
               <p className="text-xs font-semibold uppercase text-neutral-500">Interactieve productdemo</p>
               <h2 className="mt-1 text-xl font-semibold text-neutral-950">Briefanalyse</h2>
             </div>
-            <Badge className="bg-green-50 text-green-800">Klaar in 12 sec.</Badge>
+            <Badge>Klaar in 12 sec.</Badge>
           </CardHeader>
           <CardContent>
             <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
@@ -56,7 +56,7 @@ export function LandingPage() {
                 {demoRows.map(([title, body], index) => (
                   <div className="animate-rise rounded-lg border border-neutral-200 bg-white p-4" key={title}>
                     <div className="flex gap-4">
-                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-green-50 text-sm font-semibold text-green-800">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-neutral-100 text-sm font-semibold text-neutral-700">
                         {index + 1}
                       </span>
                       <div>
@@ -106,7 +106,7 @@ export function PricingSection() {
       </div>
       <div className="mt-10 grid gap-5 lg:grid-cols-3">
         {pricingPlans.map((plan) => (
-          <Card className={plan.badge ? "border-green-200 bg-green-50/30" : ""} key={plan.id}>
+          <Card className={plan.badge ? "border-neutral-300 bg-neutral-50" : ""} key={plan.id}>
             <CardContent>
               <div className="flex items-start justify-between gap-4">
                 <div>

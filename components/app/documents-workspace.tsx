@@ -50,7 +50,7 @@ export function DocumentsWorkspace() {
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-green-700">Documenten</p>
+        <p className="text-sm font-medium text-neutral-700">Documenten</p>
         <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Upload, analyseer en beheer documenten.</h1>
       </div>
       <Card>
