@@ -7,7 +7,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-neutral-200/70 bg-white/88 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
         <Link className="flex items-center gap-3" href="/">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-neutral-950 text-sm font-semibold text-white">
+          <span className="grid h-9 w-9 place-items-center rounded-lg border border-neutral-300 bg-neutral-100 text-sm font-semibold text-neutral-950">
             LP
           </span>
           <span className="text-sm font-semibold text-neutral-950">LifePilot AI</span>
