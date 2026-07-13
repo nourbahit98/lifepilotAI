@@ -10,7 +10,7 @@ export function SimpleAppPage({
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-blue-700">LifePilot AI</p>
+        <p className="text-sm font-medium text-green-700">LifePilot AI</p>
         <h1 className="mt-2 text-4xl font-semibold text-slate-950">{title}</h1>
       </div>
       <Card>

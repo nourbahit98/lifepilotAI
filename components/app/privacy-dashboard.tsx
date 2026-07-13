@@ -38,7 +38,7 @@ export function PrivacyDashboard() {
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-blue-700">Privacy en gegevens</p>
+        <p className="text-sm font-medium text-green-700">Privacy en gegevens</p>
         <h1 className="mt-2 text-4xl font-semibold text-slate-950">Jij bepaalt wat LifePilot onthoudt.</h1>
       </div>
       <div className="grid gap-5 lg:grid-cols-2">

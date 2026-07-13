@@ -63,7 +63,7 @@ export function PlanningWorkspace() {
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-blue-700">Planning</p>
+        <p className="text-sm font-medium text-green-700">Planning</p>
         <h1 className="mt-2 text-4xl font-semibold text-slate-950">Dag-, week- en lijstweergave.</h1>
       </div>
       <Card>

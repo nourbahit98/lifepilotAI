@@ -116,7 +116,7 @@ export function AssistantWorkspace() {
   return (
     <div className="space-y-6">
       <section>
-        <p className="text-sm font-medium text-blue-700">AI-assistent</p>
+        <p className="text-sm font-medium text-green-700">AI-assistent</p>
         <h1 className="mt-2 text-4xl font-semibold text-slate-950">Vraag LifePilot om iets te regelen.</h1>
       </section>
       <Card>
@@ -164,7 +164,7 @@ export function AssistantWorkspace() {
             <p aria-live="polite" className="mt-1 text-sm text-slate-600">{status}</p>
           </div>
           {router ? (
-            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-800">
+            <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-800">
               {router.intent} · {router.output_type}
             </span>
           ) : null}

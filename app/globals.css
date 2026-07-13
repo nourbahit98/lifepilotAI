@@ -2,7 +2,7 @@
 
 :root {
   --background: #f8fafc;
-  --foreground: #0f172a;
+  --foreground: #151515;
 }
 
 @theme inline {
@@ -35,8 +35,8 @@ html {
 }
 
 ::selection {
-  background: #bfdbfe;
-  color: #0f172a;
+  background: #dbe9d7;
+  color: #151515;
 }
 
 .text-balance {

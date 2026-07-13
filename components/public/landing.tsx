@@ -56,7 +56,7 @@ export function LandingPage() {
                 {demoRows.map(([title, body], index) => (
                   <div className="animate-rise rounded-lg border border-slate-200 bg-white p-4" key={title}>
                     <div className="flex gap-4">
-                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue-50 text-sm font-semibold text-blue-800">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-green-50 text-sm font-semibold text-green-800">
                         {index + 1}
                       </span>
                       <div>
@@ -106,7 +106,7 @@ export function PricingSection() {
       </div>
       <div className="mt-10 grid gap-5 lg:grid-cols-3">
         {pricingPlans.map((plan) => (
-          <Card className={plan.badge ? "border-blue-200 bg-blue-50/30" : ""} key={plan.id}>
+          <Card className={plan.badge ? "border-green-200 bg-green-50/30" : ""} key={plan.id}>
             <CardContent>
               <div className="flex items-start justify-between gap-4">
                 <div>

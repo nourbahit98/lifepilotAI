@@ -31,7 +31,7 @@ export function SubscriptionManager() {
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-sm font-medium text-blue-700">Abonnement</p>
+        <p className="text-sm font-medium text-green-700">Abonnement</p>
         <h1 className="mt-2 text-4xl font-semibold text-slate-950">Beheer je abonnement.</h1>
       </div>
       <div className="flex gap-2">
