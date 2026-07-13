@@ -1,4 +1,5 @@
 import { planLimits, PlanId } from "@/lib/plans";
+import { isMissingSupabaseResourceError } from "@/lib/supabase/errors";
 import { createSupabaseServiceClient } from "@/lib/supabase/server";
 
 export function currentBillingPeriod(date = new Date()) {
@@ -27,6 +28,9 @@ export async function assertUsageAllowed(
     .eq("billing_period", billingPeriod);
 
   if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return { limit, remaining: limit, used: 0 };
+    }
     throw new Error("Abonnement kon niet worden gecontroleerd.");
   }
 
@@ -55,6 +59,7 @@ export async function recordUsage(
     user_id: userId,
   });
   if (error) {
+    if (isMissingSupabaseResourceError(error)) return;
     throw new Error("Gebruik kon niet worden opgeslagen.");
   }
 }

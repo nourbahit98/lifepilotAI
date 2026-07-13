@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import { requireApiUser } from "@/lib/api-auth";
 import { planLimits, PlanId } from "@/lib/plans";
 import { extractText, validateUpload } from "@/lib/security/files";
+import { isMissingSupabaseResourceError } from "@/lib/supabase/errors";
 import { assertUsageAllowed, recordUsage } from "@/lib/usage";
 
 export async function GET(request: NextRequest) {
@@ -14,8 +15,17 @@ export async function GET(request: NextRequest) {
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) return Response.json({ error: "Documenten konden niet worden geladen." }, { status: 500 });
-  return Response.json({ documents: data });
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({
+        documents: [],
+        setupRequired: true,
+        error: "Documentendatabase is nog niet ingericht.",
+      });
+    }
+    return Response.json({ error: "Documenten konden niet worden geladen." }, { status: 500 });
+  }
+  return Response.json({ documents: data ?? [] });
 }
 
 export async function POST(request: NextRequest) {
@@ -32,8 +42,15 @@ export async function POST(request: NextRequest) {
 
   const uploaded = [];
   for (const file of files) {
-    validateUpload(file, planLimits[plan].maxFileMb);
-    await assertUsageAllowed(auth.user.id, plan, "upload");
+    try {
+      validateUpload(file, planLimits[plan].maxFileMb);
+      await assertUsageAllowed(auth.user.id, plan, "upload");
+    } catch (error) {
+      return Response.json(
+        { error: error instanceof Error ? error.message : "Bestand kon niet worden gevalideerd." },
+        { status: 400 },
+      );
+    }
 
     let extractedText = "";
     let analysisStatus = "processed";
@@ -53,6 +70,15 @@ export async function POST(request: NextRequest) {
       });
 
     if (uploadError) {
+      if (isMissingSupabaseResourceError(uploadError)) {
+        return Response.json(
+          {
+            error: "Documentopslag is nog niet ingericht. Maak de Supabase Storage bucket `documents` aan.",
+            setupRequired: true,
+          },
+          { status: 503 },
+        );
+      }
       return Response.json({ error: "Bestand kon niet worden opgeslagen." }, { status: 500 });
     }
 
@@ -70,6 +96,15 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
+      if (isMissingSupabaseResourceError(error)) {
+        return Response.json(
+          {
+            error: "Documentendatabase is nog niet ingericht.",
+            setupRequired: true,
+          },
+          { status: 503 },
+        );
+      }
       return Response.json({ error: "Documentmetadata kon niet worden opgeslagen." }, { status: 500 });
     }
 

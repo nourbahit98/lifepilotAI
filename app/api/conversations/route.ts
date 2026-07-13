@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 
 import { requireApiUser } from "@/lib/api-auth";
+import { isMissingSupabaseResourceError } from "@/lib/supabase/errors";
 
 const patchSchema = z.object({
   id: z.string().uuid(),
@@ -17,8 +18,17 @@ export async function GET(request: NextRequest) {
     .select("*, messages(id, role, content, created_at)")
     .order("updated_at", { ascending: false });
 
-  if (error) return Response.json({ error: "Gesprekken konden niet worden geladen." }, { status: 500 });
-  return Response.json({ conversations: data });
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({
+        conversations: [],
+        setupRequired: true,
+        error: "Gesprekkendatabase is nog niet ingericht.",
+      });
+    }
+    return Response.json({ error: "Gesprekken konden niet worden geladen." }, { status: 500 });
+  }
+  return Response.json({ conversations: data ?? [] });
 }
 
 export async function PATCH(request: NextRequest) {
@@ -34,7 +44,12 @@ export async function PATCH(request: NextRequest) {
     .select()
     .single();
 
-  if (error) return Response.json({ error: "Gesprek kon niet worden hernoemd." }, { status: 500 });
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({ conversation: null, setupRequired: true });
+    }
+    return Response.json({ error: "Gesprek kon niet worden hernoemd." }, { status: 500 });
+  }
   return Response.json({ conversation: data });
 }
 
@@ -45,6 +60,11 @@ export async function DELETE(request: NextRequest) {
   if (!id) return Response.json({ error: "Gesprek ontbreekt." }, { status: 400 });
 
   const { error } = await auth.userSupabase.from("conversations").delete().eq("id", id);
-  if (error) return Response.json({ error: "Gesprek kon niet worden verwijderd." }, { status: 500 });
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({ ok: true, setupRequired: true });
+    }
+    return Response.json({ error: "Gesprek kon niet worden verwijderd." }, { status: 500 });
+  }
   return Response.json({ ok: true });
 }

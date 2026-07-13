@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 
 import { requireApiUser } from "@/lib/api-auth";
+import { isMissingSupabaseResourceError } from "@/lib/supabase/errors";
 
 const planningSchema = z.object({
   description: z.string().max(1000).optional(),
@@ -22,8 +23,17 @@ export async function GET(request: NextRequest) {
     .select("*")
     .order("start_datetime", { ascending: true });
 
-  if (error) return Response.json({ error: "Planning kon niet worden geladen." }, { status: 500 });
-  return Response.json({ items: data });
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({
+        items: [],
+        setupRequired: true,
+        error: "Planningdatabase is nog niet ingericht.",
+      });
+    }
+    return Response.json({ error: "Planning kon niet worden geladen." }, { status: 500 });
+  }
+  return Response.json({ items: data ?? [] });
 }
 
 export async function POST(request: NextRequest) {
@@ -42,7 +52,21 @@ export async function POST(request: NextRequest) {
         .single();
 
   const { data, error } = await query;
-  if (error) return Response.json({ error: "Planning kon niet worden opgeslagen." }, { status: 500 });
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({
+        item: {
+          ...item,
+          created_at: new Date().toISOString(),
+          id: id ?? crypto.randomUUID(),
+          source: "local",
+          user_id: auth.user.id,
+        },
+        setupRequired: true,
+      });
+    }
+    return Response.json({ error: "Planning kon niet worden opgeslagen." }, { status: 500 });
+  }
   return Response.json({ item: data });
 }
 
@@ -52,6 +76,11 @@ export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id");
   if (!id) return Response.json({ error: "Planningitem ontbreekt." }, { status: 400 });
   const { error } = await auth.userSupabase.from("planning_items").delete().eq("id", id);
-  if (error) return Response.json({ error: "Planningitem kon niet worden verwijderd." }, { status: 500 });
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({ ok: true, setupRequired: true });
+    }
+    return Response.json({ error: "Planningitem kon niet worden verwijderd." }, { status: 500 });
+  }
   return Response.json({ ok: true });
 }

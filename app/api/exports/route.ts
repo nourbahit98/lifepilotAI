@@ -4,6 +4,7 @@ import { z } from "zod";
 import { requireApiUser } from "@/lib/api-auth";
 import { generateExportFile } from "@/lib/export/generators";
 import { planLimits, PlanId } from "@/lib/plans";
+import { isMissingSupabaseResourceError } from "@/lib/supabase/errors";
 import { recordUsage } from "@/lib/usage";
 
 const exportSchema = z.object({
@@ -11,6 +12,46 @@ const exportSchema = z.object({
   title: z.string().min(1).max(120),
   type: z.enum(["pdf", "docx", "xlsx", "csv"]),
 });
+
+export async function GET(request: NextRequest) {
+  const auth = await requireApiUser(request);
+  if (auth.error) return auth.error;
+
+  const { data, error } = await auth.serviceSupabase
+    .from("generated_files")
+    .select("id,title,file_type,storage_path,created_at")
+    .eq("user_id", auth.user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    if (isMissingSupabaseResourceError(error)) {
+      return Response.json({
+        files: [],
+        setupRequired: true,
+        error: "Bestandendatabase is nog niet ingericht.",
+      });
+    }
+    return Response.json({ error: "Bestanden konden niet worden geladen." }, { status: 500 });
+  }
+
+  const files = await Promise.all(
+    (data ?? []).map(async (file) => {
+      const { data: signed } = await auth.serviceSupabase.storage
+        .from("generated-files")
+        .createSignedUrl(file.storage_path, 60 * 10);
+
+      return {
+        created_at: file.created_at,
+        download_url: signed?.signedUrl ?? null,
+        file_type: file.file_type,
+        id: file.id,
+        title: file.title,
+      };
+    }),
+  );
+
+  return Response.json({ files });
+}
 
 export async function POST(request: NextRequest) {
   const auth = await requireApiUser(request);
@@ -33,14 +74,27 @@ export async function POST(request: NextRequest) {
   const filename = `${parsed.data.title.replace(/[^\w\-]+/g, "-")}.${file.extension}`;
   const storagePath = `${auth.user.id}/${crypto.randomUUID()}-${filename}`;
 
-  await auth.serviceSupabase.storage
+  const { error: uploadError } = await auth.serviceSupabase.storage
     .from("generated-files")
     .upload(storagePath, file.buffer, {
       contentType: file.contentType,
       upsert: false,
     });
 
-  const { data } = await auth.serviceSupabase
+  if (uploadError) {
+    if (isMissingSupabaseResourceError(uploadError)) {
+      return Response.json(
+        {
+          error: "Bestandenopslag is nog niet ingericht. Maak de Supabase Storage bucket `generated-files` aan.",
+          setupRequired: true,
+        },
+        { status: 503 },
+      );
+    }
+    return Response.json({ error: "Export kon niet worden opgeslagen." }, { status: 500 });
+  }
+
+  const { data, error: metadataError } = await auth.serviceSupabase
     .from("generated_files")
     .insert({
       file_type: file.extension,
@@ -50,6 +104,19 @@ export async function POST(request: NextRequest) {
     })
     .select()
     .single();
+
+  if (metadataError) {
+    if (isMissingSupabaseResourceError(metadataError)) {
+      return Response.json(
+        {
+          error: "Bestandendatabase is nog niet ingericht.",
+          setupRequired: true,
+        },
+        { status: 503 },
+      );
+    }
+    return Response.json({ error: "Exportmetadata kon niet worden opgeslagen." }, { status: 500 });
+  }
 
   await recordUsage(auth.user.id, "export");
 

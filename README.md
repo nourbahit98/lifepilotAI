@@ -96,7 +96,7 @@ Vul `OPENAI_API_KEY` in. LifePilot gebruikt server-side routes voor AI-routing e
 
 - `POST /api/ai` streamt statusupdates en AI-resultaten.
 - `GET/POST /api/documents` beheert uploads en tekstextractie.
-- `POST /api/exports` genereert echte PDF-, DOCX-, XLSX- en CSV-bestanden.
+- `GET/POST /api/exports` beheert en genereert echte PDF-, DOCX-, XLSX- en CSV-bestanden.
 - `GET/PATCH/DELETE /api/conversations` beheert gesprekken.
 - `GET/POST/DELETE /api/planning` beheert planningitems.
 - `POST /api/stripe/checkout` start Stripe Checkout.

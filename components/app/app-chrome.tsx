@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 import { SignOutButton } from "@/components/app/sign-out-button";
 import { cn } from "@/lib/utils";
@@ -42,6 +42,10 @@ export function AppChrome({
   profile?: { full_name?: string | null; email?: string | null; subscription_plan?: string | null } | null;
 }) {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem("lifepilot-sidebar") === "collapsed";
+  });
   const displayName = profile?.full_name || profile?.email || "LifePilot";
   const initials = displayName
     .split(" ")
@@ -50,27 +54,51 @@ export function AppChrome({
     .map((part) => part[0]?.toUpperCase())
     .join("");
 
+  function toggleSidebar() {
+    setCollapsed((current) => {
+      const next = !current;
+      window.localStorage.setItem("lifepilot-sidebar", next ? "collapsed" : "expanded");
+      return next;
+    });
+  }
+
   return (
     <main className="min-h-screen bg-[#f7f7f5] text-neutral-950">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 border-r border-neutral-200 bg-[#f0f0ee] px-3 py-3 lg:flex lg:flex-col">
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-40 hidden border-r border-neutral-200 bg-[#f0f0ee] px-3 py-3 transition-[width] duration-200 lg:flex lg:flex-col",
+          collapsed ? "w-20" : "w-72",
+        )}
+      >
         <div className="flex items-center justify-between px-2 py-2">
           <Link className="flex min-w-0 items-center gap-3" href="/dashboard">
             <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-neutral-300 bg-white text-sm font-semibold text-neutral-950 shadow-sm">
               LP
             </span>
-            <span className="truncate text-sm font-semibold">LifePilot AI</span>
+            {!collapsed ? <span className="truncate text-sm font-semibold">LifePilot AI</span> : null}
           </Link>
-          <span className="grid h-9 w-9 place-items-center rounded-lg text-neutral-500">
-            <PanelLeft aria-hidden className="h-4 w-4" />
-          </span>
+          <button
+            aria-label={collapsed ? "Menubalk uitklappen" : "Menubalk inklappen"}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-neutral-500 transition hover:bg-white hover:text-neutral-950"
+            onClick={toggleSidebar}
+            title={collapsed ? "Uitklappen" : "Inklappen"}
+            type="button"
+          >
+            <PanelLeft aria-hidden className={cn("h-4 w-4 transition-transform", collapsed && "rotate-180")} />
+          </button>
         </div>
 
         <Link
-          className="mt-3 flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#151515] px-4 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(0,0,0,0.16)] transition hover:bg-black"
+          aria-label="Nieuwe opdracht"
+          className={cn(
+            "mt-3 flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#151515] px-4 text-sm font-semibold text-white shadow-[0_14px_34px_rgba(0,0,0,0.16)] transition hover:bg-black",
+            collapsed && "px-0",
+          )}
           href="/assistant"
+          title="Nieuwe opdracht"
         >
           <Plus aria-hidden className="h-4 w-4" />
-          Nieuwe opdracht
+          {!collapsed ? "Nieuwe opdracht" : null}
         </Link>
 
         <nav className="mt-4 flex-1 space-y-1 overflow-y-auto pr-1">
@@ -81,30 +109,37 @@ export function AppChrome({
                 className={cn(
                   "flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-medium text-neutral-700 transition hover:bg-white hover:text-neutral-950",
                   active && "bg-white text-neutral-950 shadow-sm",
+                  collapsed && "justify-center px-0",
                 )}
                 href={href}
                 key={href}
+                title={label}
               >
                 <Icon aria-hidden className="h-4 w-4 shrink-0" />
-                <span className="truncate">{label}</span>
+                {!collapsed ? <span className="truncate">{label}</span> : null}
               </Link>
             );
           })}
         </nav>
 
         <div className="border-t border-neutral-200 pt-3">
-          <div className="mb-3 flex items-center gap-3 rounded-lg bg-white px-3 py-3 shadow-sm">
+          <div
+            className={cn(
+              "mb-3 flex items-center gap-3 rounded-lg bg-white px-3 py-3 shadow-sm",
+              collapsed && "justify-center px-0",
+            )}
+          >
             <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-neutral-100 text-xs font-semibold text-neutral-950">
               {initials || "LP"}
             </span>
-            <div className="min-w-0">
+            {!collapsed ? <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-neutral-950">{displayName}</p>
               <p className="truncate text-xs font-medium text-neutral-500">
                 {profile?.subscription_plan ?? "configuratie"}
               </p>
-            </div>
+            </div> : null}
           </div>
-          {!configurationMissing ? <SignOutButton /> : null}
+          {!configurationMissing ? <SignOutButton compact={collapsed} /> : null}
         </div>
       </aside>
 
@@ -122,7 +157,7 @@ export function AppChrome({
         </div>
       </header>
 
-      <div className="min-h-screen lg:pl-72">
+      <div className={cn("min-h-screen transition-[padding] duration-200", collapsed ? "lg:pl-20" : "lg:pl-72")}>
         <section className="mx-auto w-full max-w-6xl space-y-6 px-4 py-5 pb-24 sm:px-6 lg:px-10 lg:py-8">
           {children}
         </section>

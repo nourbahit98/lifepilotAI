@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { cn } from "@/lib/utils";
 
-export function SignOutButton() {
+export function SignOutButton({ compact }: { compact?: boolean }) {
   const router = useRouter();
   async function signOut() {
     const supabase = createSupabaseBrowserClient();
@@ -15,9 +16,16 @@ export function SignOutButton() {
     router.refresh();
   }
   return (
-    <Button className="w-full gap-2 shadow-none" onClick={signOut} type="button" variant="secondary">
+    <Button
+      aria-label="Uitloggen"
+      className={cn("w-full gap-2 shadow-none", compact && "h-10 w-10 rounded-full px-0 py-0")}
+      onClick={signOut}
+      title="Uitloggen"
+      type="button"
+      variant="secondary"
+    >
       <LogOut aria-hidden className="h-4 w-4" />
-      Uitloggen
+      {compact ? null : "Uitloggen"}
     </Button>
   );
 }

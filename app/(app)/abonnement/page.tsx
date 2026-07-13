@@ -8,7 +8,7 @@ export default async function SubscriptionPage() {
   const session = await requireUser("/abonnement");
   return (
     <AppShell configurationMissing={session.configurationMissing} profile={session.profile}>
-      <SubscriptionManager />
+      <SubscriptionManager currentPlan={session.profile?.subscription_plan ?? "free"} />
     </AppShell>
   );
 }

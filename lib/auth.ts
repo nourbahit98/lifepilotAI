@@ -19,7 +19,7 @@ export async function requireUser(returnTo = "/dashboard") {
   const profile = await getCurrentProfile();
   return {
     configurationMissing: false as const,
-    profile,
+    profile: { email: user.email, ...profile },
     user,
   };
 }

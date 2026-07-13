@@ -5,6 +5,7 @@ import { requireApiUser } from "@/lib/api-auth";
 import { generateAssistantResult } from "@/lib/openai/assistant";
 import { routeWithOpenAI } from "@/lib/openai/router";
 import { PlanId } from "@/lib/plans";
+import { isMissingSupabaseResourceError } from "@/lib/supabase/errors";
 import { assertUsageAllowed, recordUsage } from "@/lib/usage";
 
 const requestSchema = z.object({
@@ -54,26 +55,26 @@ export async function POST(request: NextRequest) {
           router,
         });
 
-        const { data: conversation } = parsed.data.conversationId
+        const { data: conversation, error: conversationError } = parsed.data.conversationId
           ? await auth.serviceSupabase
-              .from("conversations")
-              .update({ selected_module: router.intent, title: result.title })
-              .eq("id", parsed.data.conversationId)
-              .eq("user_id", userId)
-              .select()
-              .single()
+            .from("conversations")
+            .update({ selected_module: router.intent, title: result.title })
+            .eq("id", parsed.data.conversationId)
+            .eq("user_id", userId)
+            .select()
+            .single()
           : await auth.serviceSupabase
-              .from("conversations")
-              .insert({
-                selected_module: router.intent,
-                title: result.title,
-                user_id: userId,
-              })
-              .select()
-              .single();
+            .from("conversations")
+            .insert({
+              selected_module: router.intent,
+              title: result.title,
+              user_id: userId,
+            })
+            .select()
+            .single();
 
         if (conversation) {
-          await auth.serviceSupabase.from("messages").insert([
+          const { error: messageError } = await auth.serviceSupabase.from("messages").insert([
             {
               content: parsed.data.prompt,
               conversation_id: conversation.id,
@@ -88,6 +89,12 @@ export async function POST(request: NextRequest) {
               user_id: userId,
             },
           ]);
+
+          if (messageError && !isMissingSupabaseResourceError(messageError)) {
+            throw messageError;
+          }
+        } else if (conversationError && !isMissingSupabaseResourceError(conversationError)) {
+          throw conversationError;
         }
 
         await recordUsage(userId, "ai_command");
