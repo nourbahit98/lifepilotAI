@@ -145,7 +145,7 @@ export function AssistantWorkspace() {
           <div className="mt-5 flex flex-wrap gap-2">
             {examplePrompts.map((example) => (
               <button
-                className="rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-semibold text-neutral-600 hover:bg-neutral-200"
+                className="rounded-full bg-[#151515] px-3 py-1.5 text-xs font-semibold text-white hover:bg-black"
                 key={example}
                 onClick={() => setPrompt(example)}
                 type="button"
