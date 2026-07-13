@@ -11,11 +11,11 @@ export function SimpleAppPage({
     <section className="space-y-6">
       <div>
         <p className="text-sm font-medium text-green-700">LifePilot AI</p>
-        <h1 className="mt-2 text-4xl font-semibold text-slate-950">{title}</h1>
+        <h1 className="mt-2 text-4xl font-semibold text-neutral-950">{title}</h1>
       </div>
       <Card>
         <CardContent>
-          <p className="leading-7 text-slate-600">{description}</p>
+          <p className="leading-7 text-neutral-600">{description}</p>
         </CardContent>
       </Card>
     </section>

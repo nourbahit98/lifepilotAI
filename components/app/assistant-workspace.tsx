@@ -117,7 +117,7 @@ export function AssistantWorkspace() {
     <div className="space-y-6">
       <section>
         <p className="text-sm font-medium text-green-700">AI-assistent</p>
-        <h1 className="mt-2 text-4xl font-semibold text-slate-950">Vraag LifePilot om iets te regelen.</h1>
+        <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Vraag LifePilot om iets te regelen.</h1>
       </section>
       <Card>
         <CardContent>
@@ -145,7 +145,7 @@ export function AssistantWorkspace() {
           <div className="mt-5 flex flex-wrap gap-2">
             {examplePrompts.map((example) => (
               <button
-                className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-200"
+                className="rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-semibold text-neutral-600 hover:bg-neutral-200"
                 key={example}
                 onClick={() => setPrompt(example)}
                 type="button"
@@ -160,8 +160,8 @@ export function AssistantWorkspace() {
       <Card>
         <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-slate-950">Resultaat</h2>
-            <p aria-live="polite" className="mt-1 text-sm text-slate-600">{status}</p>
+            <h2 className="text-xl font-semibold text-neutral-950">Resultaat</h2>
+            <p aria-live="polite" className="mt-1 text-sm text-neutral-600">{status}</p>
           </div>
           {router ? (
             <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-800">
@@ -178,10 +178,10 @@ export function AssistantWorkspace() {
                 <Block title="Aanbevolen acties" lines={result.recommended_actions} />
                 {result.warning ? <Block title="Waarschuwing" lines={[result.warning]} warning /> : null}
               </div>
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-                <h3 className="text-sm font-semibold text-slate-950">{result.title}</h3>
+              <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-5">
+                <h3 className="text-sm font-semibold text-neutral-950">{result.title}</h3>
                 <textarea
-                  className="mt-4 min-h-80 w-full resize-y rounded-lg border border-slate-200 bg-white p-4 text-sm leading-7 text-slate-700"
+                  className="mt-4 min-h-80 w-full resize-y rounded-lg border border-neutral-200 bg-white p-4 text-sm leading-7 text-neutral-700"
                   onChange={(event) =>
                     setResult((current) => current && { ...current, full_result: event.target.value })
                   }
@@ -190,11 +190,11 @@ export function AssistantWorkspace() {
               </div>
             </div>
           ) : (
-            <p className="text-sm leading-6 text-slate-600">
+            <p className="text-sm leading-6 text-neutral-600">
               Je resultaat verschijnt hier met een samenvatting, acties, volledig antwoord en exportknoppen.
             </p>
           )}
-          <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-5">
+          <div className="mt-5 flex flex-wrap gap-2 border-t border-neutral-100 pt-5">
             <Button disabled={!canExport} onClick={copyResult} type="button" variant="secondary">Kopiëren</Button>
             <Button disabled={!canExport} onClick={() => exportResult("pdf")} type="button" variant="secondary">PDF</Button>
             <Button disabled={!canExport} onClick={() => exportResult("docx")} type="button" variant="secondary">Word</Button>
@@ -209,11 +209,11 @@ export function AssistantWorkspace() {
 
 function Block({ lines, title, warning }: { lines: string[]; title: string; warning?: boolean }) {
   return (
-    <section className={warning ? "rounded-lg bg-orange-50 p-4" : "rounded-lg bg-slate-50 p-4"}>
-      <h3 className="text-sm font-semibold text-slate-950">{title}</h3>
+    <section className={warning ? "rounded-lg bg-orange-50 p-4" : "rounded-lg bg-neutral-50 p-4"}>
+      <h3 className="text-sm font-semibold text-neutral-950">{title}</h3>
       <ul className="mt-2 space-y-1">
         {lines.map((line) => (
-          <li className="text-sm leading-6 text-slate-600" key={line}>{line}</li>
+          <li className="text-sm leading-6 text-neutral-600" key={line}>{line}</li>
         ))}
       </ul>
     </section>

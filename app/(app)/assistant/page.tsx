@@ -10,7 +10,7 @@ export default async function AssistantPage() {
   const session = await requireUser("/assistant");
   return (
     <AppShell configurationMissing={session.configurationMissing} profile={session.profile}>
-      <Suspense fallback={<div className="text-sm text-slate-600">Assistent laden...</div>}>
+      <Suspense fallback={<div className="text-sm text-neutral-600">Assistent laden...</div>}>
         <AssistantWorkspace />
       </Suspense>
     </AppShell>

@@ -51,35 +51,35 @@ export function DocumentsWorkspace() {
     <section className="space-y-6">
       <div>
         <p className="text-sm font-medium text-green-700">Documenten</p>
-        <h1 className="mt-2 text-4xl font-semibold text-slate-950">Upload, analyseer en beheer documenten.</h1>
+        <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Upload, analyseer en beheer documenten.</h1>
       </div>
       <Card>
         <CardContent>
           <input className="sr-only" multiple onChange={(event) => upload(event.target.files)} ref={fileRef} type="file" />
           <div className="flex flex-wrap items-center gap-3">
             <Button onClick={() => fileRef.current?.click()} type="button">Bestanden uploaden</Button>
-            <p aria-live="polite" className="text-sm text-slate-600">{status}</p>
+            <p aria-live="polite" className="text-sm text-neutral-600">{status}</p>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
-          <h2 className="text-base font-semibold text-slate-950">Recente documenten</h2>
+          <h2 className="text-base font-semibold text-neutral-950">Recente documenten</h2>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {documents.map((document) => (
-              <div className="flex flex-col gap-2 rounded-lg bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between" key={document.id}>
+              <div className="flex flex-col gap-2 rounded-lg bg-neutral-50 p-4 sm:flex-row sm:items-center sm:justify-between" key={document.id}>
                 <div>
-                  <p className="font-semibold text-slate-950">{document.filename}</p>
-                  <p className="text-sm text-slate-600">{document.file_type} · {document.analysis_status}</p>
+                  <p className="font-semibold text-neutral-950">{document.filename}</p>
+                  <p className="text-sm text-neutral-600">{document.file_type} · {document.analysis_status}</p>
                 </div>
                 <Button asChild variant="secondary">
                   <a href={`/assistant?prompt=${encodeURIComponent(`Leg ${document.filename} uit in eenvoudige taal.`)}`}>Analyseer</a>
                 </Button>
               </div>
             ))}
-            {!documents.length ? <p className="text-sm text-slate-600">Nog geen documenten.</p> : null}
+            {!documents.length ? <p className="text-sm text-neutral-600">Nog geen documenten.</p> : null}
           </div>
         </CardContent>
       </Card>

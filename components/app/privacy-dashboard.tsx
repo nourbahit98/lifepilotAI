@@ -39,13 +39,13 @@ export function PrivacyDashboard() {
     <section className="space-y-6">
       <div>
         <p className="text-sm font-medium text-green-700">Privacy en gegevens</p>
-        <h1 className="mt-2 text-4xl font-semibold text-slate-950">Jij bepaalt wat LifePilot onthoudt.</h1>
+        <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Jij bepaalt wat LifePilot onthoudt.</h1>
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
         <Card>
           <CardContent>
-            <h2 className="text-base font-semibold text-slate-950">Gegevens beheren</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
+            <h2 className="text-base font-semibold text-neutral-950">Gegevens beheren</h2>
+            <p className="mt-3 text-sm leading-6 text-neutral-600">
               Exporteer alle opgeslagen gesprekken, documenten, planning, bestanden, geheugenitems en gebruiksrecords.
             </p>
             <Button className="mt-5" onClick={exportData} type="button">Exporteer mijn gegevens</Button>
@@ -53,8 +53,8 @@ export function PrivacyDashboard() {
         </Card>
         <Card>
           <CardContent>
-            <h2 className="text-base font-semibold text-slate-950">Automatische documentverwijdering</h2>
-            <select className="mt-4 h-11 w-full rounded-lg border border-slate-200 px-4 text-sm">
+            <h2 className="text-base font-semibold text-neutral-950">Automatische documentverwijdering</h2>
+            <select className="mt-4 h-11 w-full rounded-lg border border-neutral-200 px-4 text-sm">
               <option>Direct na verwerking</option>
               <option>Na 24 uur</option>
               <option>Na 7 dagen</option>
@@ -73,7 +73,7 @@ export function PrivacyDashboard() {
             <Input onChange={(event) => setConfirmation(event.target.value)} value={confirmation} />
             <Button onClick={deleteAccount} type="button" variant="danger">Verwijderen</Button>
           </div>
-          {status ? <p className="mt-3 text-sm text-slate-600">{status}</p> : null}
+          {status ? <p className="mt-3 text-sm text-neutral-600">{status}</p> : null}
         </CardContent>
       </Card>
     </section>

@@ -64,7 +64,7 @@ export function PlanningWorkspace() {
     <section className="space-y-6">
       <div>
         <p className="text-sm font-medium text-green-700">Planning</p>
-        <h1 className="mt-2 text-4xl font-semibold text-slate-950">Dag-, week- en lijstweergave.</h1>
+        <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Dag-, week- en lijstweergave.</h1>
       </div>
       <Card>
         <CardContent>
@@ -75,14 +75,14 @@ export function PlanningWorkspace() {
               Planning opnieuw optimaliseren
             </Button>
           </div>
-          <p aria-live="polite" className="mt-3 text-sm text-slate-600">{status}</p>
+          <p aria-live="polite" className="mt-3 text-sm text-neutral-600">{status}</p>
         </CardContent>
       </Card>
       <div className="grid gap-5 lg:grid-cols-3">
         {["Dag", "Week", "Lijst"].map((view) => (
           <Card key={view}>
             <CardContent>
-              <h2 className="text-base font-semibold text-slate-950">{view}weergave</h2>
+              <h2 className="text-base font-semibold text-neutral-950">{view}weergave</h2>
               <DndContext onDragEnd={onDragEnd}>
                 <SortableContext items={items.map((item) => item.id)} strategy={verticalListSortingStrategy}>
                   <ul className="mt-4 space-y-3">
@@ -104,7 +104,7 @@ function SortablePlanningItem({ item }: { item: PlanningItem }) {
   });
   return (
     <li
-      className="cursor-grab rounded-lg bg-slate-50 p-3 text-sm text-slate-700 active:cursor-grabbing"
+      className="cursor-grab rounded-lg bg-neutral-50 p-3 text-sm text-neutral-700 active:cursor-grabbing"
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}

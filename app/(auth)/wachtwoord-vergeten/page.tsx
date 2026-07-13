@@ -8,7 +8,7 @@ export default function ForgotPasswordPage() {
     <main>
       <SiteHeader />
       <section className="mx-auto flex min-h-[calc(100vh-64px)] max-w-7xl items-center px-5 py-12 sm:px-8">
-        <Suspense fallback={<div className="text-sm text-slate-600">Formulier laden...</div>}>
+        <Suspense fallback={<div className="text-sm text-neutral-600">Formulier laden...</div>}>
           <AuthForm mode="forgot" />
         </Suspense>
       </section>

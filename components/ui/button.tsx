@@ -16,10 +16,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           "inline-flex min-h-10 items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-green-700 disabled:pointer-events-none disabled:opacity-50",
           variant === "primary" &&
-            "bg-slate-950 text-white shadow-[0_14px_34px_rgba(15,23,42,0.16)] hover:bg-black",
+            "bg-neutral-950 text-white shadow-[0_14px_34px_rgba(0,0,0,0.16)] hover:bg-black",
           variant === "secondary" &&
-            "border border-slate-200 bg-white text-slate-950 hover:border-slate-300 hover:bg-slate-50",
-          variant === "ghost" && "bg-transparent text-slate-700 hover:bg-slate-100",
+            "border border-neutral-200 bg-white text-neutral-950 hover:border-neutral-300 hover:bg-neutral-50",
+          variant === "ghost" && "bg-transparent text-neutral-700 hover:bg-neutral-100",
           variant === "danger" && "bg-red-900 text-white hover:bg-red-950",
           className,
         )}

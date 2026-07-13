@@ -32,7 +32,7 @@ export function SubscriptionManager() {
     <section className="space-y-6">
       <div>
         <p className="text-sm font-medium text-green-700">Abonnement</p>
-        <h1 className="mt-2 text-4xl font-semibold text-slate-950">Beheer je abonnement.</h1>
+        <h1 className="mt-2 text-4xl font-semibold text-neutral-950">Beheer je abonnement.</h1>
       </div>
       <div className="flex gap-2">
         <Button onClick={() => setInterval("monthly")} type="button" variant={interval === "monthly" ? "primary" : "secondary"}>
@@ -48,9 +48,9 @@ export function SubscriptionManager() {
         {pricingPlans.map((plan) => (
           <Card key={plan.id}>
             <CardContent>
-              <h2 className="text-xl font-semibold text-slate-950">{plan.name}</h2>
-              <p className="mt-2 text-sm text-slate-600">{plan.description}</p>
-              <ul className="mt-5 space-y-2 text-sm text-slate-600">
+              <h2 className="text-xl font-semibold text-neutral-950">{plan.name}</h2>
+              <p className="mt-2 text-sm text-neutral-600">{plan.description}</p>
+              <ul className="mt-5 space-y-2 text-sm text-neutral-600">
                 {plan.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
               </ul>
               {plan.id === "free" ? (

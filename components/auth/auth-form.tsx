@@ -89,20 +89,20 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" }) {
   return (
     <Card className="mx-auto w-full max-w-md">
       <CardContent>
-        <h1 className="text-3xl font-semibold text-slate-950">{title}</h1>
+        <h1 className="text-3xl font-semibold text-neutral-950">{title}</h1>
         <form className="mt-8 space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           {mode === "register" ? (
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block text-sm font-medium text-neutral-700">
               Naam
               <Input className="mt-2" {...form.register("fullName")} autoComplete="name" />
             </label>
           ) : null}
-          <label className="block text-sm font-medium text-slate-700">
+          <label className="block text-sm font-medium text-neutral-700">
             E-mail
             <Input className="mt-2" {...form.register("email")} autoComplete="email" type="email" />
           </label>
           {mode !== "forgot" ? (
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block text-sm font-medium text-neutral-700">
               Wachtwoord
               <Input
                 className="mt-2"
@@ -124,7 +124,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "forgot" }) {
         </form>
         {message ? <p className="mt-4 rounded-lg bg-green-50 p-3 text-sm text-green-800">{message}</p> : null}
         {error ? <p className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800">{error}</p> : null}
-        <div className="mt-6 flex justify-between text-sm text-slate-600">
+        <div className="mt-6 flex justify-between text-sm text-neutral-600">
           {mode !== "login" ? <Link href="/inloggen">Inloggen</Link> : <Link href="/registreren">Registreren</Link>}
           {mode !== "forgot" ? <Link href="/wachtwoord-vergeten">Wachtwoord vergeten</Link> : null}
         </div>
