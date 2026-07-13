@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LifePilot AI",
   description:
-    "Een rustige AI-assistent voor planning, documenten, berichten en bestanden.",
+    "Een productieklare SaaS-assistent voor planning, documenten, berichten, exports en abonnementen.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
