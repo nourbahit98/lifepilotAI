@@ -10,7 +10,7 @@ export async function requireApiUser(request: NextRequest) {
       error: Response.json(
         {
           error:
-            "Supabase is niet geconfigureerd. Vul NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY en SUPABASE_SERVICE_ROLE_KEY in.",
+            "Supabase is niet geconfigureerd. Vul NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY en SUPABASE_SERVICE_ROLE_KEY in.",
         },
         { status: 503 },
       ),

@@ -6,7 +6,7 @@ export function createSupabaseBrowserClient() {
   const config = getSupabaseConfig();
   if (!config.url || !config.anonKey) {
     throw new Error(
-      "Supabase is niet geconfigureerd. Vul NEXT_PUBLIC_SUPABASE_URL en NEXT_PUBLIC_SUPABASE_ANON_KEY in.",
+      "Supabase is niet geconfigureerd. Vul NEXT_PUBLIC_SUPABASE_URL en NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in.",
     );
   }
 

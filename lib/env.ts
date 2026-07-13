@@ -1,6 +1,6 @@
 const requiredServerKeys = [
   "NEXT_PUBLIC_SUPABASE_URL",
-  "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+  "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
   "SUPABASE_SERVICE_ROLE_KEY",
 ] as const;
 
@@ -18,12 +18,15 @@ export function getPublicAppUrl() {
 
 export function getSupabaseConfig() {
   const url = getEnv("NEXT_PUBLIC_SUPABASE_URL");
-  const anonKey = getEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  const publishableKey =
+    getEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY") ||
+    getEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
   const serviceRoleKey = getEnv("SUPABASE_SERVICE_ROLE_KEY");
 
   return {
-    anonKey,
-    isConfigured: Boolean(url && anonKey),
+    anonKey: publishableKey,
+    isConfigured: Boolean(url && publishableKey),
+    publishableKey,
     serviceRoleKey,
     url,
   };
